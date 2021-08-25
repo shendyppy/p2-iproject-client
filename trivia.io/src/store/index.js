@@ -14,7 +14,8 @@ export default new Vuex.Store({
     isLoggedIn: false,
     messages: [],
     questions: {},
-    nickname: "",
+    user: [],
+    rooms: [],
   },
   mutations: {
     SET_STATUS_LOG(state, payload) {
@@ -26,8 +27,11 @@ export default new Vuex.Store({
     GET_QUESTIONS(state, payload) {
       state.questions = payload;
     },
-    GET_NICKNAME(state, payload) {
-      state.nickname = payload;
+    GET_USER_INFO(state, payload) {
+      state.user = payload;
+    },
+    GET_ROOMS(state, payload) {
+      state.rooms = payload;
     },
   },
   actions: {
@@ -73,9 +77,12 @@ export default new Vuex.Store({
         });
         context.commit("SET_STATUS_LOG", true);
         context.dispatch("getUserInfo");
-        router.push("/");
+        router.push("/lobby");
       } catch (err) {
-        console.log(err.response.data.message);
+        Vue.$toast.open({
+          message: `${err.response.data.message}`,
+          type: "default",
+        });
       }
     },
 
@@ -125,8 +132,9 @@ export default new Vuex.Store({
           },
         });
 
-        context.commit("GET_NICKNAME", response.data.nickname);
+        context.commit("GET_USER_INFO", response.data);
         localStorage.setItem("nickname", response.data.nickname);
+        localStorage.setItem("points", response.data.points);
       } catch (err) {
         console.log(err);
       }

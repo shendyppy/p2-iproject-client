@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
+import FreeTrialRoom from "../views/FreeTrialRoom.vue";
 import Room from "../views/Room.vue";
 import Lobby from "../views/Lobby.vue";
 
@@ -25,9 +26,14 @@ const routes = [
     component: Register,
   },
   {
-    path: "/room",
+    path: "/room/:name",
     name: "Room",
     component: Room,
+  },
+  {
+    path: "/room",
+    name: "FreeTrialRoom",
+    component: FreeTrialRoom,
   },
   {
     path: "/lobby",

@@ -66,6 +66,11 @@ export default {
       },
     };
   },
+  computed: {
+    nickname() {
+      return this.$store.state.user.nickname;
+    },
+  },
   methods: {
     backToHome() {
       this.$router.push("/");
@@ -75,7 +80,11 @@ export default {
     },
     loggingIn() {
       this.$store.dispatch("login", this.dataLogin);
+      this.$socket.emit("logining", this.nickname);
     },
+  },
+  created() {
+    this.$store.dispatch("getUserInfo");
   },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="card text-center" style="margin-top: 20%; height: 400px">
+    <div class="card" style="margin-top: 20%; height: 400px">
       <div class="row">
         <TotalPlayer></TotalPlayer>
         <QuizBoard
@@ -34,6 +34,7 @@ export default {
   created() {
     this.$store.dispatch("getTrivia");
   },
+  methods: {},
 };
 </script>
 

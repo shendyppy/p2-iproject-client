@@ -1,6 +1,6 @@
 <template>
-  <div class="col-3">
-    <div class="card-body" style="margin-left: 2%">
+  <div class="col-2">
+    <div class="card-body" style="margin-left: 2% max-height: 250px">
       <header
         class="d-flex flex-row justify-content-between"
         style="margin-left: 5%; margin-right: 5%"
@@ -8,21 +8,42 @@
         <h6>Players</h6>
       </header>
       <div class="card">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">Player 1</li>
-          <li class="list-group-item">Player 2</li>
-          <li class="list-group-item">Player 3</li>
-          <li class="list-group-item">Tsubasa</li>
-        </ul>
+        <div
+          class="overflow-auto"
+          style="height: 275px; max-height: 275px"
+          v-for="(user, i) in room.users"
+          :key="i"
+          :user="user"
+        >
+          <div>
+            <small class="flex" v-if="user === nickname"
+              >{{ user }}
+              <button class="btn btn-secondary btn-sm" style="height: 20%">
+                You
+              </button></small
+            >
+            <small class="flex" v-else>{{ user }}</small>
+            <hr />
+          </div>
+        </div>
       </div>
     </div>
     <div style="margin-bottom: 2%">
       <a
         href="#"
         class="btn btn-outline-secondary btn-sm"
-        style="width: 50%; margin-top: 40%"
+        style="width: 50%; margin-top: 2%"
         @click="backToHome"
         >Back</a
+      >
+    </div>
+    <div style="margin-bottom: 2%">
+      <a
+        href="#"
+        class="btn btn-outline-secondary btn-sm"
+        style="width: 50%; margin-top: 2%"
+        @click="refreshTrivia"
+        >Refresh</a
       >
     </div>
   </div>
@@ -37,6 +58,26 @@ Vue.use(VueSweetalert2);
 
 export default {
   name: "TotalPlayer",
+  data() {
+    return {
+      nickname: localStorage.getItem("nickname"),
+      room: {},
+      adminName: "",
+    };
+  },
+  created() {
+    this.$socket.on("detailRoom", (data) => {
+      this.room = data;
+
+      console.log(data, `sampai di client`);
+    });
+    this.adminName = localStorage.nickname;
+  },
+  computed: {
+    rooms() {
+      return this.$store.state.rooms;
+    },
+  },
   methods: {
     loggingOut() {
       this.$store.dispatch("logout");
@@ -64,6 +105,9 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    refreshTrivia() {
+      this.$store.dispatch("getTrivia");
     },
   },
 };

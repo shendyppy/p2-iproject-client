@@ -1,10 +1,15 @@
 <template>
   <div id="app">
+    <Navbar></Navbar>
     <router-view />
+    <HFooter style="margin-top: 12%"></HFooter>
   </div>
 </template>
 
 <script>
+import HFooter from "vue-hacktiv8-footer";
+import Navbar from "./components/Navbar.vue";
+
 export default {
   name: "App",
   created() {
@@ -13,6 +18,10 @@ export default {
     } else {
       this.$store.commit("SET_STATUS_LOG", false);
     }
+  },
+  components: {
+    HFooter,
+    Navbar,
   },
 };
 </script>

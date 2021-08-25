@@ -28,7 +28,7 @@
                     </div>
                     <div class="col">
                       <a href="#" class="btn btn-secondary" @click="freeTrial"
-                        >Start free trial!</a
+                        >Play the game!</a
                       >
                     </div>
                   </div>
@@ -57,24 +57,11 @@
                     <a href="#" class="btn btn-outline-secondary">Try it!</a>
                   </div>
                 </li>
-                <li class="list-group-item">
+                <li
+                  class="list-group-item"
+                  style="height: 117px; margin-top: 5%"
+                >
                   <div class="card-body">
-                    <a
-                      href="#"
-                      class="btn btn-secondary"
-                      @click="login"
-                      v-if="!isLoggedIn"
-                      >Login</a
-                    >
-                    <a
-                      href="#"
-                      class="btn btn-outline-secondary"
-                      aria-disabled="falsetrue"
-                      v-if="isLoggedIn"
-                      >Logged In</a
-                    >
-                    <br />
-                    <br />
                     <div class="row">
                       <div class="col">
                         <a href="#" class="btn btn-secondary"
@@ -111,6 +98,7 @@ export default {
     return {
       data: {
         nickname: "",
+        points: 0,
       },
     };
   },
@@ -119,7 +107,7 @@ export default {
       return this.$store.state.isLoggedIn;
     },
     nickname() {
-      return this.$store.state.nickname;
+      return this.$store.state.user.nickname;
     },
   },
   methods: {
@@ -132,13 +120,16 @@ export default {
             confirmButtonColor: "gray",
           });
         } else {
+          this.$socket.emit("logining", this.data.nickname);
           localStorage.setItem("nickname", this.data.nickname);
-          this.$router.push("/room");
+          localStorage.setItem("points", this.data.points);
+          this.$router.push(`/room`);
         }
       } else {
         if (this.isLoggedIn) {
+          this.$socket.emit("logining", this.nickname);
           localStorage.setItem("nickname", this.nickname);
-          this.$router.push("/room");
+          this.$router.push(`/room`);
         }
       }
     },
@@ -152,9 +143,6 @@ export default {
       } else {
         this.$router.push("/lobby");
       }
-    },
-    login() {
-      this.$router.push("/login");
     },
   },
   components: {},
