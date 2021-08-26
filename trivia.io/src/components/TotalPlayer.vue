@@ -7,24 +7,14 @@
       >
         <h6>Players</h6>
       </header>
-      <div class="card">
-        <div
-          class="overflow-auto"
-          style="height: 275px; max-height: 275px"
-          v-for="(user, i) in roomDetail.users"
-          :key="i"
-          :user="user"
-        >
-          <div>
-            <small class="flex" v-if="user === nickname"
-              >{{ user }}
-              <button class="btn btn-secondary btn-sm" style="height: 20%">
-                You
-              </button></small
-            >
-            <small class="flex" v-else>{{ user }}</small>
-            <hr />
-          </div>
+      <div class="card" style="height: 275px; max-height: 275px; overflow-auto">
+        <div v-for="(user, i) in roomDetail.users" :key="i" :user="user">
+          <small class="flex" v-if="user === nickname"
+            >{{ user }}
+            <button class="btn btn-secondary btn-sm">You</button></small
+          >
+          <small class="flex" v-else>{{ user }}</small>
+          <hr />
         </div>
       </div>
     </div>
@@ -63,6 +53,11 @@ export default {
       nickname: localStorage.getItem("nickname"),
       roomDetail: {},
     };
+  },
+  sockets: {
+    detailRoom(data) {
+      this.roomDetail = data;
+    },
   },
   created() {
     this.$socket.on("detailRoom", (data) => {

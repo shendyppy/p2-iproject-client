@@ -15,32 +15,11 @@
                   required
                 />
               </div>
-              <br />
-              <div class="form-group">
-                <label for="maxpoints">Players</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  placeholder="5 players"
-                  v-model="maxPlayer"
-                  required
-                />
-              </div>
-              <br />
-              <div class="form-group">
-                <label for="maxpoints">Max Points</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  placeholder="150 Points"
-                  v-model="maxPoint"
-                  required
-                />
-              </div>
+
               <button
                 href=""
                 class="btn btn-outline-secondary btn-sm"
-                style="width: 100%; margin-top: 20.5%"
+                style="width: 100%; margin-top: 52%"
                 type="button"
                 @click.prevent="createRoom"
               >
@@ -68,20 +47,12 @@
               >
                 <div class="card-body">
                   <h6 class="card-title">{{ room.roomName }}</h6>
-                  <br />
-                  <ul class="list-group" style="width: 100%; height: 50%">
-                    <li class="list-group-item">
-                      {{ room.users.length }}/{{ room.maxPlayer }} Players
-                    </li>
-                    <li class="list-group-item">
-                      Max Points: {{ room.maxPoint }} Points
-                    </li>
-                  </ul>
+
                   <div>
                     <a
                       href="#"
                       class="btn btn-secondary btn-sm"
-                      style="width: 100%; margin-top: 9%"
+                      style="width: 100%; margin-top: 10%"
                       @click="joinRoom(room.roomName)"
                       >Join</a
                     >
@@ -94,7 +65,7 @@
                 <h1>No available room yet!</h1>
               </div>
             </div>
-            <div style="margin-top: 7.5%; margin-right: 2%; margin-left: 1%">
+            <div style="margin-top: 15%; margin-right: 2%; margin-left: 1%">
               <a
                 href="#"
                 class="btn btn-outline-secondary btn-sm"
@@ -122,15 +93,13 @@ export default {
   data() {
     return {
       roomName: "",
-      maxPlayer: 0,
-      maxPoint: 0,
     };
   },
   methods: {
     joinRoom(name) {
       const payload = {
         roomName: name,
-        nickname: localStorage.nickname,
+        nickname: localStorage.getItem("nickname"),
       };
       this.$socket.emit("joinRoom", payload);
       this.$router.push(`/room/${name}`);
@@ -138,14 +107,11 @@ export default {
     createRoom() {
       const payload = {
         roomName: this.roomName,
-        maxPlayer: this.maxPlayer,
-        maxPoint: this.maxPoint,
+
         admin: localStorage.getItem("nickname"),
       };
       this.$socket.emit("createRoom", payload);
       this.roomName = "";
-      this.maxPlayer = 0;
-      this.maxPoint = 0;
     },
     loggingOut() {
       this.$store.dispatch("logout");
