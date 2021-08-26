@@ -74,7 +74,7 @@ export default {
       this.$router.push("/");
     },
     toMyTrivia() {
-      this.$store.dispatch("getMyTrivia");
+      this.$router.push("/trivia");
     },
   },
 };
