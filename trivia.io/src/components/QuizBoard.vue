@@ -50,6 +50,7 @@
       <button
         class="btn btn-secondary btn-sm"
         style="margin-left: 2%; margin-top: 3%; margin-right: 4%; width: 96%"
+        @click="savingTrivia(question)"
       >
         Save this trivia!
       </button>
@@ -80,6 +81,7 @@ export default {
         message: `${this.nickname} have the right answer! 10 points for you!`,
         type: "default",
       });
+      setTimeout(5000);
       this.fetchQuestion();
     },
     wrongAnswer() {
@@ -87,10 +89,14 @@ export default {
         message: `Try harder next time!`,
         type: "default",
       });
+      setTimeout(5000);
       this.fetchQuestion();
     },
     fetchQuestion() {
       this.$store.dispatch("getTrivia");
+    },
+    savingTrivia(payload) {
+      this.$store.dispatch("addMyTrivia", payload);
     },
   },
   computed: {

@@ -16,16 +16,14 @@
       <a
         href="#"
         class="btn btn-outline-secondary btn-sm"
-        style="width: 50%; margin-top: 2%"
+        style="width: 30%; margin-top: 2%"
         @click="refreshTrivia"
         >Refresh</a
       >
-    </div>
-    <div style="margin-bottom: 2%">
       <a
         href="#"
         class="btn btn-outline-secondary btn-sm"
-        style="width: 50%; margin-top: 2%"
+        style="width: 30%; margin-top: 2%"
         @click="backToHome"
         >Back</a
       >
@@ -37,8 +35,11 @@
 import Vue from "vue";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+import VueToast from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
 
 Vue.use(VueSweetalert2);
+Vue.use(VueToast, { position: "top-right" });
 
 import QuizBoard from "../components/QuizBoard.vue";
 import Chat from "../components/Chat.vue";
@@ -59,6 +60,10 @@ export default {
   },
   methods: {
     refreshTrivia() {
+      Vue.$toast.open({
+        message: "Please wait....",
+        type: "info",
+      });
       this.$store.dispatch("getTrivia");
     },
     loggingOut() {

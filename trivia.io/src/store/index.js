@@ -92,8 +92,19 @@ export default new Vuex.Store({
           },
         });
 
+        Vue.$toast.open({
+          message: "You have successfully add trivia to your list!",
+          type: "default",
+        });
+
         context.commit("GET_MY_TRIVIA", response.data);
+        router.push("/trivia");
       } catch (err) {
+        Vue.$toast.open({
+          message: "Something went wrong!",
+          type: "error",
+        });
+
         console.log(err);
       }
     },
@@ -107,6 +118,8 @@ export default new Vuex.Store({
             access_token: localStorage.getItem("access_token"),
           },
         });
+
+        console.log(response.data);
 
         context.commit("GET_MY_TRIVIA", response.data);
       } catch (err) {
@@ -125,6 +138,7 @@ export default new Vuex.Store({
         });
 
         context.commit("GET_MY_TRIVIA", response.data);
+        router.push("/");
       } catch (err) {
         console.log(err);
       }

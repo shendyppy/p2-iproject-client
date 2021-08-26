@@ -43,8 +43,11 @@
 import Vue from "vue";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+import VueToast from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
 
 Vue.use(VueSweetalert2);
+Vue.use(VueToast, { position: "top-right" });
 
 export default {
   name: "TotalPlayer",
@@ -71,6 +74,10 @@ export default {
   },
   methods: {
     refreshTrivia() {
+      Vue.$toast.open({
+        message: "Please wait....",
+        type: "info",
+      });
       this.$store.dispatch("getTrivia");
     },
     loggingOut() {
