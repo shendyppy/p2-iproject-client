@@ -62,8 +62,6 @@ export default {
   created() {
     this.$socket.on("detailRoom", (data) => {
       this.roomDetail = data;
-
-      console.log(data, `sampai di client`);
     });
   },
   computed: {

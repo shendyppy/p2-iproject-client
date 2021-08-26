@@ -55,7 +55,7 @@ export default new Vuex.Store({
 
         const randomizeCategory = Math.round(Math.random() * 25);
 
-        const query = `?amount=1&category=${randomizeCategory}&difficulty=${difficulty}&type=boolean`;
+        const query = `?amount=1&category=${randomizeCategory}&difficulty=${difficulty}&type=multiple`;
 
         const response = await question({
           method: "GET",
