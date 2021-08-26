@@ -17,6 +17,7 @@ export default new Vuex.Store({
     questions: {},
     user: [],
     rooms: [],
+    myTrivia: [],
     numberFacts: "",
   },
   mutations: {
@@ -37,6 +38,9 @@ export default new Vuex.Store({
     },
     GET_ROOMS(state, payload) {
       state.rooms = payload;
+    },
+    GET_MY_TRIVIA(state, payload) {
+      state.myTrivia = payload;
     },
   },
   actions: {
@@ -67,6 +71,60 @@ export default new Vuex.Store({
         } else {
           context.commit("GET_QUESTIONS", response.data);
         }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
+    async addMyTrivia(context, payload) {
+      try {
+        const response = await server({
+          method: "POST",
+          url: "/trivia",
+          data: {
+            category: payload.category,
+            correct_answer: payload.correct_answer,
+            difficulty: payload.difficulty,
+            question: payload.question,
+          },
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+        });
+
+        context.commit("GET_MY_TRIVIA", response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
+    async getMyTrivia(context) {
+      try {
+        const response = await server({
+          method: "GET",
+          url: "/trivia/myTrivia",
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+        });
+
+        context.commit("GET_MY_TRIVIA", response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
+    async deleteMyTrivia(context, payload) {
+      try {
+        const response = await server({
+          method: "DELETE",
+          url: `/trivia/${payload}`,
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+        });
+
+        context.commit("GET_MY_TRIVIA", response.data);
       } catch (err) {
         console.log(err);
       }
@@ -125,40 +183,6 @@ export default new Vuex.Store({
           type: "default",
         });
         router.push("/login");
-      } catch (err) {
-        console.log(err.response.data.message);
-      }
-    },
-
-    async googleLogin(context, payload) {
-      try {
-        const id_token = payload.getAuthResponse().id_token;
-
-        const response = await server({
-          method: "POST",
-          url: "/authgoogle",
-          data: { id_token },
-        });
-
-        localStorage.setItem("access_token", response.data.access_token);
-        context.commit("SET_STATUS_LOG", true);
-        context.dispatch("getUserInfo");
-        Vue.$toast.open({
-          message: "You have successfully logged in",
-          type: "default",
-        });
-        router.push("/lobby");
-      } catch (err) {
-        console.log(err.response.data.message);
-      }
-    },
-
-    async failLoginGoogleUser() {
-      try {
-        this.$toast.open({
-          message: "Something went wrong!",
-          type: "error",
-        });
       } catch (err) {
         console.log(err.response.data.message);
       }

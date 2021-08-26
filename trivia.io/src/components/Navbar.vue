@@ -23,35 +23,25 @@
         >
           Login
         </button>
-        <button
-          id="logout"
-          href="#"
-          class="btn btn-secondary"
-          v-if="isLoggedIn && !isGoogle"
-          @click="logout"
-        >
-          Logout
-        </button>
-        <!-- <button>
-          <GoogleLogin
-            :params="params"
-            :logoutButton="true"
+        <div v-if="isLoggedIn" id="logout">
+          <button href="#" class="btn btn-secondary" @click="toMyTrivia">
+            My Trivia
+          </button>
+          <button
             id="logout"
             href="#"
             class="btn btn-secondary"
-            v-if="isLoggedIn && isGoogle"
             @click="logout"
-            >Logout</GoogleLogin
           >
-        </button> -->
+            Logout
+          </button>
+        </div>
       </div>
     </div>
   </nav>
 </template>
 
 <script>
-// import GoogleLogin from "vue-google-login";
-
 import Vue from "vue";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -72,9 +62,6 @@ export default {
     isLoggedIn() {
       return this.$store.state.isLoggedIn;
     },
-    isGoogle() {
-      return this.$store.state.user.isGoogle;
-    },
   },
   methods: {
     login() {
@@ -86,9 +73,9 @@ export default {
     backToHome() {
       this.$router.push("/");
     },
-  },
-  components: {
-    // GoogleLogin,
+    toMyTrivia() {
+      this.$store.dispatch("getMyTrivia");
+    },
   },
 };
 </script>
