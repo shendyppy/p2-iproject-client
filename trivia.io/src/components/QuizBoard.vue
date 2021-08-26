@@ -24,25 +24,35 @@
       </h6>
     </div>
     <br />
-    <div class="row">
+    <div class="row" style="margin-top: 4%">
       <div class="col">
         <a
           href="#"
           class="btn btn-outline-secondary btn-sm"
-          style="width: 50%"
-          @click="wrongAnswer"
-          >{{ question.incorrect_answers[0] }}</a
-        >
-      </div>
-      <div class="col">
-        <a
-          href="#"
-          class="btn btn-outline-secondary btn-sm"
-          style="width: 50%"
+          style="width: 100%"
           @click="rightAnswer"
           >{{ question.correct_answer }}</a
         >
       </div>
+      <div
+        class="col"
+        v-for="(incorrect, i) in question.incorrect_answers"
+        :key="i"
+      >
+        <a
+          href="#"
+          class="btn btn-outline-secondary btn-sm"
+          style="width: 100%"
+          @click="wrongAnswer"
+          >{{ incorrect }}</a
+        >
+      </div>
+      <button
+        class="btn btn-secondary btn-sm"
+        style="margin-left: 2%; margin-top: 3%; margin-right: 4%; width: 96%"
+      >
+        Save this trivia!
+      </button>
     </div>
   </div>
 </template>
