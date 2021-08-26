@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Navbar></Navbar>
+
     <router-view />
     <HFooter style="margin-top: 12%"></HFooter>
   </div>

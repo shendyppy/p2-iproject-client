@@ -80,18 +80,12 @@ export default {
       this.fetchQuestion();
     },
     fetchQuestion() {
-      if (this.checker !== 0) {
-        this.$store.dispatch("getTrivia");
-      }
       this.$store.dispatch("getTrivia");
     },
   },
   computed: {
     user() {
       return this.$store.state.user;
-    },
-    checker() {
-      return this.$store.state.questions.response_code;
     },
   },
   created() {

@@ -57,22 +57,15 @@
                     <a href="#" class="btn btn-outline-secondary">Try it!</a>
                   </div>
                 </li>
-                <li
-                  class="list-group-item"
-                  style="height: 117px; margin-top: 5%"
-                >
-                  <!-- <div class="card-body">
+                <li class="list-group-item" style="height: 150px">
+                  <div class="card-body">
                     <div class="row">
+                      <h5>Some facts you dont know:</h5>
                       <div class="col">
-                        <GoogleLogin
-                          :params="params"
-                          :renderParams="renderParams"
-                          :onSuccess="onSuccess"
-                          :onFailure="onFailure"
-                        ></GoogleLogin>
+                        <p class="font-italic">"{{ numberFacts }}"</p>
                       </div>
                     </div>
-                  </div> -->
+                  </div>
                 </li>
               </ul>
             </div>
@@ -84,7 +77,6 @@
 </template>
 
 <script>
-// import GoogleLogin from "vue-google-login";
 import Vue from "vue";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -116,6 +108,9 @@ export default {
     },
     nickname() {
       return this.$store.state.user.nickname;
+    },
+    numberFacts() {
+      return this.$store.state.numberFacts;
     },
   },
   methods: {
@@ -159,8 +154,8 @@ export default {
       this.$store.dispatch("failLoginGoogle");
     },
   },
-  components: {
-    // GoogleLogin,
+  created() {
+    this.$store.dispatch("getFactsNumber");
   },
 };
 </script>

@@ -5,6 +5,7 @@ import server from "../apis/server";
 import router from "../router";
 import VueToast from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
+import numberFacts from "../apis/triviaNumber";
 
 Vue.use(Vuex);
 Vue.use(VueToast, { position: "top-right" });
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     questions: {},
     user: [],
     rooms: [],
+    numberFacts: "",
   },
   mutations: {
     SET_STATUS_LOG(state, payload) {
@@ -26,6 +28,9 @@ export default new Vuex.Store({
     },
     GET_QUESTIONS(state, payload) {
       state.questions = payload;
+    },
+    GET_NUMBER_FACTS(state, payload) {
+      state.numberFacts = payload;
     },
     GET_USER_INFO(state, payload) {
       state.user = payload;
@@ -57,7 +62,24 @@ export default new Vuex.Store({
           url: query,
         });
 
-        context.commit("GET_QUESTIONS", response.data);
+        if (response.data.response_code === 1) {
+          context.dispatch("getTrivia");
+        } else {
+          context.commit("GET_QUESTIONS", response.data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
+    async getFactsNumber(context) {
+      try {
+        const response = await numberFacts({
+          method: "GET",
+          url: "/random/trivia",
+        });
+
+        context.commit("GET_NUMBER_FACTS", response.data);
       } catch (err) {
         console.log(err.response.data.message);
       }
