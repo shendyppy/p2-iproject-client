@@ -108,6 +108,40 @@ export default new Vuex.Store({
       }
     },
 
+    async googleLogin(context, payload) {
+      try {
+        const id_token = payload.getAuthResponse().id_token;
+
+        const response = await server({
+          method: "POST",
+          url: "/authgoogle",
+          data: { id_token },
+        });
+
+        localStorage.setItem("access_token", response.data.access_token);
+        context.commit("SET_STATUS_LOG", true);
+        context.dispatch("getUserInfo");
+        Vue.$toast.open({
+          message: "You have successfully logged in",
+          type: "default",
+        });
+        router.push("/lobby");
+      } catch (err) {
+        console.log(err.response.data.message);
+      }
+    },
+
+    async failLoginGoogleUser() {
+      try {
+        this.$toast.open({
+          message: "Something went wrong!",
+          type: "error",
+        });
+      } catch (err) {
+        console.log(err.response.data.message);
+      }
+    },
+
     async logout(context) {
       try {
         localStorage.clear();

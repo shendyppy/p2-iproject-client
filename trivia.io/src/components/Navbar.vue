@@ -27,17 +27,31 @@
           id="logout"
           href="#"
           class="btn btn-secondary"
-          v-if="isLoggedIn"
+          v-if="isLoggedIn && !isGoogle"
           @click="logout"
         >
           Logout
         </button>
+        <!-- <button>
+          <GoogleLogin
+            :params="params"
+            :logoutButton="true"
+            id="logout"
+            href="#"
+            class="btn btn-secondary"
+            v-if="isLoggedIn && isGoogle"
+            @click="logout"
+            >Logout</GoogleLogin
+          >
+        </button> -->
       </div>
     </div>
   </nav>
 </template>
 
 <script>
+// import GoogleLogin from "vue-google-login";
+
 import Vue from "vue";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -46,9 +60,20 @@ Vue.use(VueSweetalert2);
 
 export default {
   name: "Navbar",
+  data() {
+    return {
+      params: {
+        client_id:
+          "897974078034-vko3ugbcp4qfqmq3kh47ui56pqkr9mnd.apps.googleusercontent.com",
+      },
+    };
+  },
   computed: {
     isLoggedIn() {
       return this.$store.state.isLoggedIn;
+    },
+    isGoogle() {
+      return this.$store.state.user.isGoogle;
     },
   },
   methods: {
@@ -61,6 +86,9 @@ export default {
     backToHome() {
       this.$router.push("/");
     },
+  },
+  components: {
+    // GoogleLogin,
   },
 };
 </script>

@@ -77,21 +77,13 @@
                       Max Points: {{ room.maxPoint }} Points
                     </li>
                   </ul>
-                  <div v-if="rooms.users.length < room.maxPlayer">
+                  <div>
                     <a
                       href="#"
                       class="btn btn-secondary btn-sm"
                       style="width: 100%; margin-top: 9%"
                       @click="joinRoom(room.roomName)"
                       >Join</a
-                    >
-                  </div>
-                  <div v-if="rooms.users.length === room.maxPlayer">
-                    <a
-                      href="#"
-                      class="btn btn-outline-secondary btn-sm"
-                      style="width: 100%; margin-top: 9%"
-                      >Full</a
                     >
                   </div>
                 </div>

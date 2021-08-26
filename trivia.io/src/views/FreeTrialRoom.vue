@@ -12,6 +12,15 @@
         </div>
       </div>
     </div>
+    <div class="col" style="margin-bottom: 2%">
+      <a
+        href="#"
+        class="btn btn-outline-secondary btn-sm"
+        style="width: 50%; margin-top: 2%"
+        @click="refreshTrivia"
+        >Refresh</a
+      >
+    </div>
     <div style="margin-bottom: 2%">
       <a
         href="#"
@@ -49,6 +58,9 @@ export default {
     this.$store.dispatch("getTrivia");
   },
   methods: {
+    refreshTrivia() {
+      this.$store.dispatch("getTrivia");
+    },
     loggingOut() {
       this.$store.dispatch("logout");
     },

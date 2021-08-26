@@ -61,20 +61,18 @@
                   class="list-group-item"
                   style="height: 117px; margin-top: 5%"
                 >
-                  <div class="card-body">
+                  <!-- <div class="card-body">
                     <div class="row">
                       <div class="col">
-                        <a href="#" class="btn btn-secondary"
-                          >Sign in with Google</a
-                        >
-                      </div>
-                      <div class="col">
-                        <a href="#" class="btn btn-secondary"
-                          >Sign in with Discord</a
-                        >
+                        <GoogleLogin
+                          :params="params"
+                          :renderParams="renderParams"
+                          :onSuccess="onSuccess"
+                          :onFailure="onFailure"
+                        ></GoogleLogin>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                 </li>
               </ul>
             </div>
@@ -86,6 +84,7 @@
 </template>
 
 <script>
+// import GoogleLogin from "vue-google-login";
 import Vue from "vue";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -96,6 +95,15 @@ export default {
   name: "Home",
   data() {
     return {
+      params: {
+        client_id:
+          "897974078034-vko3ugbcp4qfqmq3kh47ui56pqkr9mnd.apps.googleusercontent.com",
+      },
+      renderParams: {
+        width: 250,
+        height: 50,
+        longtitle: true,
+      },
       data: {
         nickname: "",
         points: 0,
@@ -144,8 +152,16 @@ export default {
         this.$router.push("/lobby");
       }
     },
+    onSuccess(userGoogle) {
+      this.$store.dispatch("googleLogin", userGoogle);
+    },
+    onFailure() {
+      this.$store.dispatch("failLoginGoogle");
+    },
   },
-  components: {},
+  components: {
+    // GoogleLogin,
+  },
 };
 </script>
 

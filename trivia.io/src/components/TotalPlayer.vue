@@ -11,7 +11,7 @@
         <div
           class="overflow-auto"
           style="height: 275px; max-height: 275px"
-          v-for="(user, i) in room.users"
+          v-for="(user, i) in roomDetail.users"
           :key="i"
           :user="user"
         >
@@ -28,22 +28,22 @@
         </div>
       </div>
     </div>
-    <div style="margin-bottom: 2%">
-      <a
-        href="#"
-        class="btn btn-outline-secondary btn-sm"
-        style="width: 50%; margin-top: 2%"
-        @click="backToHome"
-        >Back</a
-      >
-    </div>
-    <div style="margin-bottom: 2%">
+    <div class="col">
       <a
         href="#"
         class="btn btn-outline-secondary btn-sm"
         style="width: 50%; margin-top: 2%"
         @click="refreshTrivia"
         >Refresh</a
+      >
+    </div>
+    <div style="margin-bottom: 2%">
+      <a
+        href="#"
+        class="btn btn-outline-secondary btn-sm"
+        style="width: 50%"
+        @click="backToHome"
+        >Back</a
       >
     </div>
   </div>
@@ -61,17 +61,15 @@ export default {
   data() {
     return {
       nickname: localStorage.getItem("nickname"),
-      room: {},
-      adminName: "",
+      roomDetail: {},
     };
   },
   created() {
     this.$socket.on("detailRoom", (data) => {
-      this.room = data;
+      this.roomDetail = data;
 
       console.log(data, `sampai di client`);
     });
-    this.adminName = localStorage.nickname;
   },
   computed: {
     rooms() {
@@ -79,6 +77,9 @@ export default {
     },
   },
   methods: {
+    refreshTrivia() {
+      this.$store.dispatch("getTrivia");
+    },
     loggingOut() {
       this.$store.dispatch("logout");
     },
@@ -105,9 +106,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-    },
-    refreshTrivia() {
-      this.$store.dispatch("getTrivia");
     },
   },
 };
