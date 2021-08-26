@@ -6,6 +6,7 @@ import Register from "../views/Register.vue";
 import FreeTrialRoom from "../views/FreeTrialRoom.vue";
 import Room from "../views/Room.vue";
 import Lobby from "../views/Lobby.vue";
+import SavedTrivia from "../views/SavedTrivia.vue";
 
 Vue.use(VueRouter);
 
@@ -39,6 +40,11 @@ const routes = [
     path: "/lobby",
     name: "Lobby",
     component: Lobby,
+  },
+  {
+    path: "/trivia",
+    name: "SavedTrivia",
+    component: SavedTrivia,
   },
 ];
 
